@@ -1,1 +1,1 @@
-# cpp_starter
+# C++ starter template
