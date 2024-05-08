@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.12.0)
 
 set(PROJECT_NAME "project_name")
+set(LIBNAME "${PROJECT_NAME}lib")
+
 project(${PROJECT_NAME} VERSION 0.1.0)
 
 set(CMAKE_CXX_STANDARD 23)
@@ -20,25 +22,30 @@ target_include_directories(
     "${PROJECT_SOURCE_DIR}/include"
     )
 
+target_link_libraries(${PROJECT_NAME}
+    ${LIBNAME}
+    )
+
 # --------------------------------------------------------------------------------------------------
 # ---- The library ---------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------
 
 include_directories(include)
 
-add_library(${PROJECT_NAME}
+
+add_library(${LIBNAME}
     src/lib.cpp
 )
 
 set_target_properties(
-    ${PROJECT_NAME} PROPERTIES
+    ${LIBNAME} PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR}
     PUBLIC_HEADER fmttools.h
     )
 
 target_include_directories(
-    ${PROJECT_NAME} PUBLIC
+    ${LIBNAME} PUBLIC
     "${PROJECT_BINARY_DIR}"
     "${PROJECT_SOURCE_DIR}/include"
     )
@@ -66,6 +73,7 @@ add_executable(
 
 target_link_libraries(
     tests
+    ${LIBNAME}
     GTest::gtest_main
     )
 
